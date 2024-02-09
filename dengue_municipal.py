@@ -61,9 +61,6 @@ def mapa_municipios(año):
     # Calculamos la tasa por cada 100k habitantes.
     df["tasa"] = df["total"] / df["poblacion"] * 100000
 
-    # Creamos la columna de nombre que se compone del nombre de la entidad y municipio.
-    df["nombre"] = df["municipio"] + ", " + df["entidad"]
-
     # Para este mapa vamos a filtrar todos los municipios sin registros
     # ya que el dengue no afecta a todo el país y muchos valores en
     # cero puede sesgar los resultados.
