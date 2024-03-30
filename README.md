@@ -13,7 +13,7 @@ https://www.gob.mx/salud/documentos/datos-abiertos-152127
 
 ![Estatal](./imgs/estatal_2023.png)
 
-Durante el 2023 la Secretaría de Salud (SSA) ha registrado al menos 54,426 casos confirmados de dengue en México.
+Durante el 2023 la Secretaría de Salud (SSA) ha registrado al menos 54,406 casos confirmados de dengue en México.
 
 Estos casos se concentran en la península de Yucatán, siendo el estado de Yucatán el que presenta la mayor tasa de casos confirmados por cada 100,000 habitantes (424).
 
