@@ -258,7 +258,7 @@ def mapa_municipios(año):
             ),
             dict(
                 x=0.01,
-                y=-0.002,
+                y=0,
                 xanchor="left",
                 yanchor="bottom",
                 text="Fuente: SSA (03/01/2024)",
@@ -266,7 +266,7 @@ def mapa_municipios(año):
             ),
             dict(
                 x=0.5,
-                y=-0.002,
+                y=0,
                 xanchor="center",
                 yanchor="bottom",
                 text=subtitulo,
@@ -274,7 +274,7 @@ def mapa_municipios(año):
             ),
             dict(
                 x=1.0,
-                y=-0.002,
+                y=0,
                 xanchor="right",
                 yanchor="bottom",
                 text="🧁 @lapanquecita",
