@@ -13,11 +13,11 @@ https://www.gob.mx/salud/documentos/datos-abiertos-152127
 
 ![Estatal](./imgs/estatal_2023.png)
 
-Durante el 2023 la Secretaría de Salud (SSA) ha registrado al menos 50,925 casos confirmados de dengue en México.
+Durante el 2023 la Secretaría de Salud (SSA) ha registrado al menos 54,426 casos confirmados de dengue en México.
 
-Estos casos se concentran en la península de Yucatán, siendo el estado de Yucatán el que presenta la mayor tasa de casos confirmados por cada 100,000 habitantes (420).
+Estos casos se concentran en la península de Yucatán, siendo el estado de Yucatán el que presenta la mayor tasa de casos confirmados por cada 100,000 habitantes (424).
 
-Algo sobresaliente es el estado de Morelos, el cual ostenta la tercera mayor tasa por cada 100,000 habitantes (197), sin embargo no es un estado que pueda considerarse con un clima tropical.
+Algo sobresaliente es el estado de Morelos, el cual ostenta la tercera mayor tasa por cada 100,000 habitantes (208), sin embargo no es un estado que pueda considerarse con un clima tropical.
 
 También podemos observar que las mujeres están siendo más afectadas que los hombres, esto lo profundizaremos más adelante.
 
@@ -38,13 +38,13 @@ En la siguiente tabla podremos consultar los 30 municipios que presentan la mayo
 
 El mapa por entidades nos indica que las mujeres están siendo más afectadas por esta enfermedad, sería interesante saber exactamente que grupos de edad están siendo los más afectados.
 
-![Edad y sexo](./imgs//edades.png)
+![Edad y sexo](./imgs//edades_2023.png)
 
 En casi todos los grupos de edad las mujeres son más afectadas que los hombres, una de las excepciones es el grupo de 10–14 años de edad, el cual coincide con ser el de mayor afectación.
 
 Algo interesante de observar es que conforme va avanzando la edad las tasas de incidencia se van reduciendo.
 
-Esto podría ser por varios factores, uno de ellos es la gravedad de los síntomas, es posible que entre más joven sea una persona, sus síntomas sean más agurdos.
+Esto podría deberse a diversos factores, uno de ellos es la gravedad de los síntomas, es posible que entre más joven sea una persona, sus síntomas sean más agudos.
 
 Cabe señalar que estos registros son de personas que manifestaban síntomas de dengue y se realizaron una prueba para determinar su condición.
 
@@ -52,11 +52,11 @@ Cabe señalar que estos registros son de personas que manifestaban síntomas de 
 
 Durante el 2023 se han registrado nuevos casos de dengue todos los días, pero no al mismo ritmo.
 
-En el siguiente calendario podremos observar como han evolucionado los nuevos casos con el paso de las semanas.
+En el siguiente calendario podremos observar como han evolucionado los nuevos casos con el paso de las semanas. Cada inicio de mes es marcado con una silueta de color blanco.
 
 ![calendario](./imgs/calendario_2023.png)
 
-Ahora sabemos que la gran mayoría de los casos confirmados de dengue se encuentran en el verano y otoño.
+Ahora sabemos que la gran mayoría de los casos confirmados de dengue ocuren en el verano y otoño.
 
 ## Conclusión
 
