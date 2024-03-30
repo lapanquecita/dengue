@@ -72,14 +72,16 @@ def mapa_municipios(año):
     df = df[df["tasa"] != 0]
 
     # Calculamos algunas estadísticas descriptivas.
-    estadisticas = ["Estadísticas descriptivas"]
-    estadisticas.append(f"Media: <b>{df['tasa'].mean():,.1f}</b>")
-    estadisticas.append(f"Mediana: <b>{df['tasa'].median():,.1f}</b>")
-    estadisticas.append(f"DE: <b>{df['tasa'].std():,.1f}</b>")
-    estadisticas.append(f"25%: <b>{df['tasa'].quantile(.25):,.1f}</b>")
-    estadisticas.append(f"75%: <b>{df['tasa'].quantile(.75):,.1f}</b>")
-    estadisticas.append(f"95%: <b>{df['tasa'].quantile(.95):,.1f}</b>")
-    estadisticas.append(f"Máximo: <b>{df['tasa'].max():,.1f}</b>")
+    estadisticas = [
+        "Estadísticas descriptivas",
+        f"Media: <b>{df['tasa'].mean():,.1f}</b>",
+        f"Mediana: <b>{df['tasa'].median():,.1f}</b>",
+        f"DE: <b>{df['tasa'].std():,.1f}</b>",
+        f"25%: <b>{df['tasa'].quantile(.25):,.1f}</b>",
+        f"75%: <b>{df['tasa'].quantile(.75):,.1f}</b>",
+        f"95%: <b>{df['tasa'].quantile(.95):,.1f}</b>",
+        f"Máximo: <b>{df['tasa'].max():,.1f}</b>",
+    ]
     estadisticas = "<br>".join(estadisticas)
 
     # Determinamos los valores mínimos y máximos para nuestra escala.
