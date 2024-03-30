@@ -41,8 +41,7 @@ def mapa_municipios(año):
     total_casos = len(df)
 
     # Calculamos el total de población del año que nos interesa.
-    total_pop = pd.read_csv(
-        "./assets/poblacion_entidad/total.csv", index_col=0)
+    total_pop = pd.read_csv("./assets/poblacion_entidad/total.csv", index_col=0)
     total_pop = total_pop.loc["Estados Unidos Mexicanos", str(año)]
 
     # Arreglamos las columnas de los identificadores de entidad y municipio.
@@ -56,10 +55,15 @@ def mapa_municipios(año):
     df = df["CVE"].value_counts().to_frame("total")
 
     # Unimos ambos DataFrames.
-    df = df.join(pop,)
+    df = df.join(
+        pop,
+    )
 
     # Calculamos la tasa por cada 100k habitantes.
     df["tasa"] = df["total"] / df["poblacion"] * 100000
+
+    # Creamos la columna de nombre que se compone del nombre de la entidad y municipio.
+    df["nombre"] = df["municipio"] + ", " + df["entidad"]
 
     # Para este mapa vamos a filtrar todos los municipios sin registros
     # ya que el dengue no afecta a todo el país y muchos valores en
@@ -98,8 +102,7 @@ def mapa_municipios(año):
     etiquetas[-1] = f"≥{valor_max:,.0f}"
 
     # Cargamos el GeoJSON de municipios de México.
-    geojson = json.loads(open("./assets/mexico2020.json",
-                              "r", encoding="utf-8").read())
+    geojson = json.loads(open("./assets/mexico2020.json", "r", encoding="utf-8").read())
 
     # Estas listas serán usadas para configurar el mapa Choropleth.
     ubicaciones = list()
@@ -113,7 +116,7 @@ def mapa_municipios(año):
         # agregamos un valor nulo.
         try:
             value = df.loc[geo]["total"]
-        except:
+        except Exception:
             value = None
 
         # Agregamos el objeto del municipio y su valor a las listas correspondientes.
@@ -152,9 +155,8 @@ def mapa_municipios(año):
                 tickwidth=5,
                 tickcolor="#FFFFFF",
                 ticklen=30,
-                tickfont_size=80
+                tickfont_size=80,
             ),
-
         )
     )
 
@@ -164,7 +166,8 @@ def mapa_municipios(año):
 
     # Cargamos el archivo GeoJSON de México.
     geojson_borde = json.loads(
-        open("./assets/mexico.json", "r", encoding="utf-8").read())
+        open("./assets/mexico.json", "r", encoding="utf-8").read()
+    )
 
     # Estas listas serán usadas para configurar el mapa Choropleth.
     ubicaciones_borde = list()
@@ -172,7 +175,6 @@ def mapa_municipios(año):
 
     # Iteramos sobre cada entidad dentro de nuestro archivo GeoJSON de México.
     for item in geojson_borde["features"]:
-
         geo = item["properties"]["NOM_ENT"]
 
         # Alimentamos las listas creadas anteriormente con la ubicación y su valor per capita.
@@ -206,7 +208,7 @@ def mapa_municipios(año):
         framewidth=5,
         showlakes=False,
         coastlinewidth=0,
-        landcolor="#000000"
+        landcolor="#000000",
     )
 
     # Agregamos las anotaciones correspondientes.
@@ -228,7 +230,7 @@ def mapa_municipios(año):
                 xanchor="center",
                 yanchor="top",
                 text=f"Distribución de los municipios con casos confirmados de dengue en México durante el {año}",
-                font_size=140
+                font_size=140,
             ),
             dict(
                 x=0.02,
@@ -236,8 +238,8 @@ def mapa_municipios(año):
                 textangle=-90,
                 xanchor="center",
                 yanchor="middle",
-                text="Casos confirmados por cada 100k habitantes",
-                font_size=100
+                text="Casos confirmados por cada 100,000 habitantes",
+                font_size=100,
             ),
             dict(
                 x=0.98,
@@ -250,33 +252,33 @@ def mapa_municipios(año):
                 bordercolor="#FFFFFF",
                 bgcolor="#000000",
                 borderwidth=5,
-                font_size=120
+                font_size=120,
             ),
             dict(
                 x=0.01,
-                y=-0.003,
+                y=-0.002,
                 xanchor="left",
                 yanchor="bottom",
-                text="Fuente: SSA (13/12/2023)",
-                font_size=120
+                text="Fuente: SSA (03/01/2024)",
+                font_size=120,
             ),
             dict(
                 x=0.5,
-                y=-0.003,
+                y=-0.002,
                 xanchor="center",
                 yanchor="bottom",
                 text=subtitulo,
-                font_size=120
+                font_size=120,
             ),
             dict(
                 x=1.0,
-                y=-0.003,
+                y=-0.002,
                 xanchor="right",
                 yanchor="bottom",
                 text="🧁 @lapanquecita",
-                font_size=120
+                font_size=120,
             ),
-        ]
+        ],
     )
 
     fig.write_image(f"./municipal_{año}.png")
@@ -321,7 +323,9 @@ def top_municipios_tabla(año):
     df = df["CVE"].value_counts().to_frame("total")
 
     # Unimos ambos DataFrames.
-    df = df.join(pop,)
+    df = df.join(
+        pop,
+    )
 
     # Calculamos la tasa por cada 100k habitantes.
     df["tasa"] = df["total"] / df["poblacion"] * 100000
@@ -354,29 +358,24 @@ def top_municipios_tabla(año):
             header=dict(
                 values=[
                     "<b>Pos.</b>",
-                    f"<b>Municipio, Entidad</b>",
-                    f"<b>Casos confirmados</b>",
+                    "<b>Municipio, Entidad</b>",
+                    "<b>Casos confirmados</b>",
                     "<b>100k habs. ↓</b>",
                 ],
                 font_color="#FFFFFF",
                 line_width=0.75,
                 fill_color="#f4511e",
                 align="center",
-                height=28
+                height=28,
             ),
             cells=dict(
-                values=[
-                    df.index,
-                    df["nombre"],
-                    df["total"],
-                    df["tasa"]
-                ],
+                values=[df.index, df["nombre"], df["total"], df["tasa"]],
                 line_width=0.75,
                 fill_color="#041C32",
                 height=28,
                 format=["", "", ",.0f", ",.2f"],
-                align=["center", "left", "center"]
-            )
+                align=["center", "left", "center"],
+            ),
         )
     )
 
@@ -394,7 +393,7 @@ def top_municipios_tabla(año):
         title_x=0.5,
         title_y=0.95,
         title_font_size=26,
-        title_text=f"Los 30 municipios de México con mayor incidencia de dengue<br>por cada 100k habitantes durante el {año}",
+        title_text=f"Los 30 municipios de México con mayor incidencia de dengue<br>por cada 100,000 habitantes durante el {año}",
         plot_bgcolor="#041C32",
         paper_bgcolor="#04293A",
         annotations=[
@@ -403,7 +402,7 @@ def top_municipios_tabla(año):
                 y=0.015,
                 xanchor="left",
                 yanchor="top",
-                text=f"Fuente: SSA (13/12/{año})"
+                text="Fuente: SSA (03/01/2024)",
             ),
             dict(
                 x=0.54,
@@ -413,19 +412,14 @@ def top_municipios_tabla(año):
                 text=subtitulo,
             ),
             dict(
-                x=1.01,
-                y=0.015,
-                xanchor="right",
-                yanchor="top",
-                text="🧁 @lapanquecita"
-            )
-        ]
+                x=1.01, y=0.015, xanchor="right", yanchor="top", text="🧁 @lapanquecita"
+            ),
+        ],
     )
 
     fig.write_image("./tabla_tasa.png")
 
 
 if __name__ == "__main__":
-
     mapa_municipios(2023)
     top_municipios_tabla(2023)

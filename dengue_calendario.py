@@ -8,21 +8,39 @@ sin embargo, nuestra versión es más complicada al tener más detalles visuales
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-from PIL import Image
 from plotly.subplots import make_subplots
+
 
 # Estas abreviaciones son usadas para las etiquetas arriba del calenario.
 MESES_ABREVIACIONES = [
-    "Ene.", "Feb.", "Mar.", "Abr.",
-    "May.", "Jun.", "Jul.", "Ago.",
-    "Sep.", "Oct.", "Nov.", "Dic."
+    "Ene.",
+    "Feb.",
+    "Mar.",
+    "Abr.",
+    "May.",
+    "Jun.",
+    "Jul.",
+    "Ago.",
+    "Sep.",
+    "Oct.",
+    "Nov.",
+    "Dic.",
 ]
 
 # Estos nombres son utilizados para la tabla de estadísticas.
 MESES_NOMBRES = [
-    "enero", "febrero", "marzo", "abril",
-    "mayo", "junio", "julio", "agosto",
-    "septiembre", "octubre", "noviembre", "diciembre"
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
 ]
 
 # Estas llaves y valores son utilizados para el eje vertical del calendario.
@@ -33,7 +51,7 @@ DIAS_DICT = {
     3: "Jue.",
     4: "Vie.",
     5: "Sáb.",
-    6: "Dom."
+    6: "Dom.",
 }
 
 
@@ -55,7 +73,6 @@ def main(año):
         f"./data/{año}.csv",
         parse_dates=["FECHA_SIGN_SINTOMAS"],
         index_col="FECHA_SIGN_SINTOMAS",
-        dayfirst=True,
     )
 
     # IMPORTANTE: Solo seleccionamos casos confirmados.
@@ -72,7 +89,7 @@ def main(año):
     # Después le asignamos los valores de los totales recién calculados.
     final = pd.DataFrame(
         index=pd.date_range(f"{año}-01-01", f"{año}-12-31"),
-        data={"total": totales_por_dia}
+        data={"total": totales_por_dia},
     )
 
     # Determinamos los valores mínimos y máximos para nuestra escala.
@@ -120,7 +137,7 @@ def main(año):
     # exactamente donde comienza el año y donde termina y el
     # resultado se agrega a una nueva columna en el DataFrame.
     pad = final.index[0].dayofweek
-    final["semana"] = numero_semana[pad:len(final) + pad]
+    final["semana"] = numero_semana[pad : len(final) + pad]
 
     # En nuestro calendario, el primer día de cada mes tendrá un borde para distinguirlo.
     final["borde"] = final.index.map(lambda x: 1 if x.day == 1 else 0)
@@ -141,10 +158,7 @@ def main(año):
         cols=1,
         row_heights=[250, 150],
         vertical_spacing=0.07,
-        specs=[
-            [{"type": "scatter"}],
-            [{"type": "table"}]
-        ]
+        specs=[[{"type": "scatter"}], [{"type": "table"}]],
     )
 
     # El primer Heatmap va a tener un solo proposito y es el
@@ -158,10 +172,11 @@ def main(año):
             z=final["borde"],
             xgap=1,
             ygap=12,
-            colorscale=["hsla(0, 100%, 100%, 0.0)",
-                        "hsla(0, 100%, 100%, 1.0)"],
+            colorscale=["hsla(0, 100%, 100%, 0.0)", "hsla(0, 100%, 100%, 1.0)"],
             showscale=False,
-        ), col=1, row=1
+        ),
+        col=1,
+        row=1,
     )
 
     # Este heatmap va a mostrar los valores de cada día.
@@ -190,8 +205,10 @@ def main(año):
                 tickfont_size=16,
                 tickvals=marcas,
                 ticktext=etiquetas,
-            )
-        ), col=1, row=1
+            ),
+        ),
+        col=1,
+        row=1,
     )
 
     # Agregamos una sencilla tabla con las estadísticas que calculamos anteriormente.
@@ -202,13 +219,14 @@ def main(año):
                     "<b>Día con más registros</b>",
                     "<b>Mes con más registros</b>",
                     "<b>Total anual</b>",
-                    "<b>Promedio diario</b>"
+                    "<b>Promedio diario</b>",
                 ],
                 font_color="#FFFFFF",
                 fill_color="#f4511e",
                 align="center",
                 height=32,
-                line_width=0.8),
+                line_width=0.8,
+            ),
             cells=dict(
                 values=[
                     stats_max,
@@ -219,9 +237,11 @@ def main(año):
                 fill_color="#041C32",
                 height=32,
                 line_width=0.8,
-                align="center"
-            )
-        ), col=1, row=2
+                align="center",
+            ),
+        ),
+        col=1,
+        row=2,
     )
 
     # Es importante fijar el rango del eje horizontal para
@@ -287,7 +307,7 @@ def main(año):
                 yref="paper",
                 xanchor="left",
                 yanchor="top",
-                text=f"Fuente: SSA (13/12/{año})"
+                text="Fuente: SSA (03/01/2024)",
             ),
             dict(
                 x=0.5,
@@ -296,7 +316,7 @@ def main(año):
                 yref="paper",
                 xanchor="center",
                 yanchor="top",
-                text="El □ Indica el inicio de cada mes"
+                text="El □ Indica el inicio de cada mes",
             ),
             dict(
                 x=1.01,
@@ -305,14 +325,13 @@ def main(año):
                 yref="paper",
                 xanchor="right",
                 yanchor="top",
-                text="🧁 @lapanquecita"
-            )
-        ]
+                text="🧁 @lapanquecita",
+            ),
+        ],
     )
 
     fig.write_image(f"./calendario_{año}.png")
 
 
 if __name__ == "__main__":
-
     main(2023)

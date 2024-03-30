@@ -78,7 +78,7 @@ def main(año):
             "Coahuila de Zaragoza": "Coahuila",
             "México": "Estado de México",
             "Michoacán de Ocampo": "Michoacán",
-            "Veracruz de Ignacio de la Llave": "Veracruz"
+            "Veracruz de Ignacio de la Llave": "Veracruz",
         }
     )
 
@@ -100,11 +100,26 @@ def main(año):
 
     # Transformamos el DataFrame para darnos el total de casos confirmados
     # por entidad y sexo.
+    # df = df.pivot_table(index="ENTIDAD_RES", columns="SEXO", aggfunc="count").fillna(0)[
+    #    "EDAD_ANOS"
+    # ]
+
     df = df.pivot_table(
         index="ENTIDAD_RES",
         columns="SEXO",
-        aggfunc="count"
-    ).fillna(0)["EDAD_ANOS"]
+        values="EDAD_ANOS",
+        aggfunc="count",
+        fill_value=0,
+    )
+
+    # Creamos un DataFrame n ceros. En ocasiones algunos estados
+    # no tienen valores y necesitamos predefinirlos.
+    dummy = pd.DataFrame(index=range(1, 33), data={1: 0, 2: 0})
+
+    # Actualizamos los valores del DataFrame en ceros y
+    # lo reasignamos al DataFrame original.
+    dummy.update(df)
+    df = dummy
 
     # Renombramos el índice con los nombres de las entidades.
     df.index = df.index.map(ENTIDADES)
@@ -138,7 +153,7 @@ def main(año):
     etiquetas[-1] = f"≥{etiquetas[-1]}"
 
     # Cargamos el GeoJSON de México.
-    geojson = json.load(open("./assets/mexico.json",  "r", encoding="utf-8"))
+    geojson = json.load(open("./assets/mexico.json", "r", encoding="utf-8"))
 
     # Estas listas serán usadas para configurar el mapa Choropleth.
     ubicaciones = list()
@@ -146,7 +161,6 @@ def main(año):
 
     # Iteramos sobre las entidades dentro del GeoJSON.
     for item in geojson["features"]:
-
         # Extraemos el nombre de la entidad.
         geo = item["properties"]["NOM_ENT"]
 
@@ -178,12 +192,12 @@ def main(año):
                 tickwidth=3,
                 tickcolor="#FFFFFF",
                 ticklen=10,
-                tickfont_size=20
+                tickfont_size=20,
             ),
             marker_line_color="#FFFFFF",
             marker_line_width=1.0,
             zmin=valor_min,
-            zmax=valor_max
+            zmax=valor_max,
         )
     )
 
@@ -198,7 +212,7 @@ def main(año):
         framewidth=2,
         showlakes=False,
         coastlinewidth=0,
-        landcolor="#1C0A00"
+        landcolor="#1C0A00",
     )
 
     # Seguimos personalizando varios parametros y
@@ -222,8 +236,7 @@ def main(año):
                 xanchor="center",
                 yanchor="top",
                 text=f"Distribución de casos confirmados de dengue en México durante el {año} por entidad de residencia",
-
-                font_size=26
+                font_size=26,
             ),
             dict(
                 x=0.0275,
@@ -231,8 +244,8 @@ def main(año):
                 textangle=-90,
                 xanchor="center",
                 yanchor="middle",
-                text="Tasa bruta por cada 100k habitantes",
-                font_size=16
+                text="Tasa bruta por cada 100,000 habitantes",
+                font_size=16,
             ),
             dict(
                 x=0.5,
@@ -240,15 +253,15 @@ def main(año):
                 xanchor="center",
                 yanchor="top",
                 text=subtitulo,
-                font_size=22
+                font_size=22,
             ),
             dict(
                 x=0.01,
                 y=-0.04,
                 xanchor="left",
                 yanchor="top",
-                text=f"Fuente: SSA (13/12/{año})",
-                font_size=22
+                text="Fuente: SSA (03/01/2024)",
+                font_size=22,
             ),
             dict(
                 x=1.01,
@@ -256,9 +269,9 @@ def main(año):
                 xanchor="right",
                 yanchor="top",
                 text="🧁 @lapanquecita",
-                font_size=22
-            )
-        ]
+                font_size=22,
+            ),
+        ],
     )
 
     # Exportamos nuestro mapa a un archivo PNG.
@@ -270,12 +283,7 @@ def main(año):
         rows=1,
         cols=2,
         horizontal_spacing=0.03,
-        specs=[
-            [
-                {"type": "table"},
-                {"type": "table"}
-            ]
-        ]
+        specs=[[{"type": "table"}, {"type": "table"}]],
     )
 
     # Crear las tablas solo es cuestión de definir las columnas y sus
@@ -290,28 +298,31 @@ def main(año):
                     "<b>Hombres</b>",
                     "<b>Mujeres</b>",
                     "<b>Total</b>",
-                    "<b>100k habs. ↓</b>"
+                    "<b>100k habs. ↓</b>",
                 ],
                 font_color="#FFFFFF",
                 fill_color="#f4511e",
                 align="center",
                 height=29.8,
-                line_width=0.8),
+                line_width=0.8,
+            ),
             cells=dict(
                 values=[
                     df.index[:16],
                     df[2][:16],
                     df[1][:16],
                     df["total"][:16],
-                    df["tasa"][:16]
+                    df["tasa"][:16],
                 ],
                 fill_color="#041C32",
                 height=29.8,
                 format=["", ",", ",", ",", ",.2f"],
                 line_width=0.8,
-                align=["left", "center"]
-            )
-        ), col=1, row=1
+                align=["left", "center"],
+            ),
+        ),
+        col=1,
+        row=1,
     )
 
     fig.add_trace(
@@ -323,28 +334,31 @@ def main(año):
                     "<b>Hombres</b>",
                     "<b>Mujeres</b>",
                     "<b>Total</b>",
-                    "<b>100k habs. ↓</b>"
+                    "<b>100k habs. ↓</b>",
                 ],
                 font_color="#FFFFFF",
                 fill_color="#f4511e",
                 align="center",
                 height=29.8,
-                line_width=0.8),
+                line_width=0.8,
+            ),
             cells=dict(
                 values=[
                     df.index[16:],
                     df[2][16:],
                     df[1][16:],
                     df["total"][16:],
-                    df["tasa"][16:]
+                    df["tasa"][16:],
                 ],
                 fill_color="#041C32",
                 height=29.8,
                 format=["", ",", ",", ",", ",.2f"],
                 line_width=0.8,
-                align=["left", "center"]
-            )
-        ), col=2, row=1
+                align=["left", "center"],
+            ),
+        ),
+        col=2,
+        row=1,
     )
 
     # Ajustamos el lienzo de las tablas.
@@ -387,5 +401,4 @@ def main(año):
 
 
 if __name__ == "__main__":
-
     main(2023)

@@ -9,16 +9,31 @@ HOMBRE: 2
 
 import pandas as pd
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+
 
 # El dataset de dengue no cuenta con grupos de edad,
 # nosotros tendremos que definirlos.
 BINS = [
-    (0, 4), (5, 9), (10, 14), (15, 19),
-    (20, 24), (25, 29), (30, 34), (35, 39),
-    (40, 44), (45, 49), (50, 54), (55, 59),
-    (60, 64), (65, 69), (70, 74), (75, 79),
-    (80, 84), (85, 89), (90, 94), (95, 99),
+    (0, 4),
+    (5, 9),
+    (10, 14),
+    (15, 19),
+    (20, 24),
+    (25, 29),
+    (30, 34),
+    (35, 39),
+    (40, 44),
+    (45, 49),
+    (50, 54),
+    (55, 59),
+    (60, 64),
+    (65, 69),
+    (70, 74),
+    (75, 79),
+    (80, 84),
+    (85, 89),
+    (90, 94),
+    (95, 99),
     (100, 120),
 ]
 
@@ -51,18 +66,19 @@ def main(año):
 
         # Para el último grupo de edad le agregamos el símbolo de 'mayor o igual que'
         # para que coincida con el índice de los datasets de población quinquenal.
-        data.append({
-            "edad": f"{a}-{b}" if a < 100 else "≥100",
-            "mujeres": len(temp_mujeres),
-            "hombres": len(temp_hombres),
-        })
+        data.append(
+            {
+                "edad": f"{a}-{b}" if a < 100 else "≥100",
+                "mujeres": len(temp_mujeres),
+                "hombres": len(temp_hombres),
+            }
+        )
 
     # Creamos un DataFrame con los conteos de cada grupo de edad y sexo.
     final = pd.DataFrame.from_records(data, index="edad")
 
     # cargamos el dataset de la población de hombres por edad quinquenal.
-    hombres_pop = pd.read_csv(
-        "./assets/poblacion_quinquenal/hombres.csv", index_col=0)
+    hombres_pop = pd.read_csv("./assets/poblacion_quinquenal/hombres.csv", index_col=0)
 
     # Seleccionamos la población del año que nos interesa.
     hombres_pop = hombres_pop[str(año)]
@@ -71,12 +87,10 @@ def main(año):
     final["poblacion_hombres"] = hombres_pop
 
     # calculamos la tasa por cada 100k hombres para cada grupo de edad.
-    final["tasa_hombres"] = final["hombres"] / \
-        final["poblacion_hombres"] * 100000
+    final["tasa_hombres"] = final["hombres"] / final["poblacion_hombres"] * 100000
 
     # cargamos el dataset de la población de mujeres por edad quinquenal.
-    mujeres_pop = pd.read_csv(
-        "./assets/poblacion_quinquenal/mujeres.csv", index_col=0)
+    mujeres_pop = pd.read_csv("./assets/poblacion_quinquenal/mujeres.csv", index_col=0)
 
     # Seleccionamos la población del año que nos interesa.
     mujeres_pop = mujeres_pop[str(año)]
@@ -85,8 +99,7 @@ def main(año):
     final["poblacion_mujeres"] = mujeres_pop
 
     # calculamos la tasa por cada 100k mujeres para cada grupo de edad.
-    final["tasa_mujeres"] = final["mujeres"] / \
-        final["poblacion_mujeres"] * 100000
+    final["tasa_mujeres"] = final["mujeres"] / final["poblacion_mujeres"] * 100000
 
     # Vamos a crear dos gráficas de dispersión para comparar las tasas
     # de hombres y mujeres.
@@ -98,10 +111,10 @@ def main(año):
             x=final.index,
             y=final["tasa_hombres"],
             mode="markers",
-            name=f"Hombres ({final['hombres'].sum():,.0f} registros)",
+            name=f"<b>Hombres</b><br>{final['hombres'].sum():,.0f} registros",
             marker_color="#76ff03",
             marker_symbol="circle-open",
-            marker_size=20,
+            marker_size=22,
             marker_line_width=4,
         )
     )
@@ -112,15 +125,16 @@ def main(año):
             x=final.index,
             y=final["tasa_mujeres"],
             mode="markers",
-            name=f"Mujeres ({final['mujeres'].sum():,.0f} registros)",
+            name=f"<b>Mujeres</b><br>{final['mujeres'].sum():,.0f} registros",
             marker_color="#ea80fc",
             marker_symbol="diamond-open",
-            marker_size=20,
+            marker_size=22,
             marker_line_width=4,
         )
     )
 
     fig.update_xaxes(
+        range=[-0.7, len(final) - 0.3],
         ticks="outside",
         tickfont_size=14,
         ticklen=10,
@@ -149,7 +163,7 @@ def main(año):
         showline=True,
         nticks=20,
         zeroline=True,
-        mirror=True
+        mirror=True,
     )
 
     # Personalizamos la leyenda y agregamos las anotaciones correspondientes.
@@ -186,7 +200,7 @@ def main(año):
                 yref="paper",
                 xanchor="left",
                 yanchor="top",
-                text="Fuente: SSA (13/12/2023)"
+                text="Fuente: SSA (03/01/2024)",
             ),
             dict(
                 x=0.5,
@@ -195,7 +209,7 @@ def main(año):
                 yref="paper",
                 xanchor="center",
                 yanchor="top",
-                text="Grupo de edad al momento de la infección"
+                text="Grupo de edad al momento de la infección",
             ),
             dict(
                 x=1.01,
@@ -204,13 +218,13 @@ def main(año):
                 yref="paper",
                 xanchor="right",
                 yanchor="top",
-                text="🧁 @lapanquecita"
+                text="🧁 @lapanquecita",
             ),
-        ])
+        ],
+    )
 
-    fig.write_image("./edades.png")
+    fig.write_image(f"./edades_{año}.png")
 
 
 if __name__ == "__main__":
-
     main(2023)
