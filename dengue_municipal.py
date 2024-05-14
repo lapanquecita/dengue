@@ -310,9 +310,6 @@ def top_municipios_tabla(año):
     # Seleccionamos las columnas de nuestro interés.
     pop = pop[["Entidad", "Municipio", str(año)]]
 
-    # Seleccionamos las columnas de nuestro interés.
-    pop = pop[["Entidad", "Municipio", str(año)]]
-
     # Renombramos las columnas.
     pop.columns = ["entidad", "municipio", "poblacion"]
 
