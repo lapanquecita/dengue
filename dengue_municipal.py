@@ -17,15 +17,14 @@ def mapa_municipios(año):
 
     """
 
-    # Los identificadores los vamos a necesitar como cadenas.
-    pop_types = {"clave_entidad": str, "clave_municipio": str}
+    # El índice lo vamos a necesitar como cadena.
+    pop_types = {"CVE": str}
 
     # Cargamos el dataset de población por municipio.
-    pop = pd.read_csv("./assets/poblacion2020.csv", dtype=pop_types)
+    pop = pd.read_csv("./assets/poblacion_municipal.csv", dtype=pop_types, index_col=0)
 
-    # El índice será lo que se conoce como el valor CVE.
-    # Compuesto del identificador de entidad + el identificador de municipio.
-    pop.index = pop["clave_entidad"] + pop["clave_municipio"]
+    # Seleccionamos las cifras del año de nuestro interés.
+    pop = pop[str(año)]
 
     # Cargamos el dataset de dengue del año que nos interesa.
     df = pd.read_csv(f"./data/{año}.csv")
@@ -41,8 +40,7 @@ def mapa_municipios(año):
     total_casos = len(df)
 
     # Calculamos el total de población del año que nos interesa.
-    total_pop = pd.read_csv("./assets/poblacion_entidad/total.csv", index_col=0)
-    total_pop = total_pop.loc["Estados Unidos Mexicanos", str(año)]
+    total_pop = pop.sum()
 
     # Arreglamos las columnas de los identificadores de entidad y municipio.
     df["ENTIDAD_RES"] = df["ENTIDAD_RES"].astype(str).str.zfill(2)
@@ -54,16 +52,11 @@ def mapa_municipios(año):
     # Contamos el total de registro para cada CVE.
     df = df["CVE"].value_counts().to_frame("total")
 
-    # Unimos ambos DataFrames.
-    df = df.join(
-        pop,
-    )
+    # Agregamos las cifras de población.
+    df["poblacion"] = pop
 
     # Calculamos la tasa por cada 100k habitantes.
     df["tasa"] = df["total"] / df["poblacion"] * 100000
-
-    # Creamos la columna de nombre que se compone del nombre de la entidad y municipio.
-    df["nombre"] = df["municipio"] + ", " + df["entidad"]
 
     # Para este mapa vamos a filtrar todos los municipios sin registros
     # ya que el dengue no afecta a todo el país y muchos valores en
@@ -177,7 +170,7 @@ def mapa_municipios(año):
 
     # Iteramos sobre cada entidad dentro de nuestro archivo GeoJSON de México.
     for item in geojson_borde["features"]:
-        geo = item["properties"]["NOM_ENT"]
+        geo = item["properties"]["NOMGEO"]
 
         # Alimentamos las listas creadas anteriormente con la ubicación y su valor per capita.
         ubicaciones_borde.append(geo)
@@ -191,7 +184,7 @@ def mapa_municipios(año):
             geojson=geojson_borde,
             locations=ubicaciones_borde,
             z=valores_borde,
-            featureidkey="properties.NOM_ENT",
+            featureidkey="properties.NOMGEO",
             colorscale=["hsla(0, 0, 0, 0)", "hsla(0, 0, 0, 0)"],
             marker_line_color="#FFFFFF",
             marker_line_width=4.0,
@@ -298,15 +291,30 @@ def top_municipios_tabla(año):
 
     """
 
-    # Los identificadores los vamos a necesitar como cadenas.
-    pop_types = {"clave_entidad": str, "clave_municipio": str}
+    # El índice lo vamos a necesitar como cadena.
+    pop_types = {"CVE": str}
 
     # Cargamos el dataset de población por municipio.
-    pop = pd.read_csv("./assets/poblacion2020.csv", dtype=pop_types)
+    pop = pd.read_csv("./assets/poblacion_municipal.csv", dtype=pop_types, index_col=0)
 
-    # El índice será lo que se conoce como el valor CVE.
-    # Compuesto del identificador de entidad + el identificador de municipio.
-    pop.index = pop["clave_entidad"] + pop["clave_municipio"]
+    # Renombramos algunos estados a sus nombres más comunes.
+    pop["Entidad"] = pop["Entidad"].replace(
+        {
+            "Coahuila de Zaragoza": "Coahuila",
+            "México": "Estado de México",
+            "Michoacán de Ocampo": "Michoacán",
+            "Veracruz de Ignacio de la Llave": "Veracruz",
+        }
+    )
+
+    # Seleccionamos las columnas de nuestro interés.
+    pop = pop[["Entidad", "Municipio", str(año)]]
+
+    # Seleccionamos las columnas de nuestro interés.
+    pop = pop[["Entidad", "Municipio", str(año)]]
+
+    # Renombramos las columnas.
+    pop.columns = ["entidad", "municipio", "poblacion"]
 
     # Cargamos el dataset de dengue del año que nos interesa.
     df = pd.read_csv(f"./data/{año}.csv")
