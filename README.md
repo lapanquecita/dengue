@@ -23,7 +23,7 @@ También podemos observar que las mujeres están siendo más afectadas que los h
 
 ## Distribución por municipio de residencia
 
-El mapa y tabla anteriores nos cuentan el inicio de esta historia, es momento de conocer más a detlale donde residen estas personas.
+El mapa y tabla anteriores nos cuentan el inicio de esta historia, es momento de conocer más a detalle donde residen estas personas.
 
 ![Municipal](./imgs/municipal_2023.png)
 
@@ -34,13 +34,15 @@ En la siguiente tabla podremos consultar los 30 municipios que presentan la mayo
 
 ![Tabla](./imgs/tabla_tasa.png)
 
+Estas tasas fueron calculadas con las estimaciones de población más recientes del CONAPO. Esto nos ayuda a brindar mayor precisión para este análisis.
+
 ## Distribución según sexo y grupo de edad
 
 El mapa por entidades nos indica que las mujeres están siendo más afectadas por esta enfermedad, sería interesante saber exactamente que grupos de edad están siendo los más afectados.
 
 ![Edad y sexo](./imgs//edades_2023.png)
 
-En casi todos los grupos de edad las mujeres son más afectadas que los hombres, una de las excepciones es el grupo de 10–14 años de edad, el cual coincide con ser el de mayor afectación.
+En casi todos los grupos de edad las mujeres son más afectadas que los hombres, una de las excepciones es el grupo de 10–14 años de edad, el cual coincide con ser el de mayor incidencia.
 
 Algo interesante de observar es que conforme va avanzando la edad las tasas de incidencia se van reduciendo.
 
