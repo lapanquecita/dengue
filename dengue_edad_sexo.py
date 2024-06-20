@@ -31,10 +31,7 @@ BINS = [
     (70, 74),
     (75, 79),
     (80, 84),
-    (85, 89),
-    (90, 94),
-    (95, 99),
-    (100, 120),
+    (85, 120),
 ]
 
 
@@ -68,7 +65,7 @@ def main(año):
         # para que coincida con el índice de los datasets de población quinquenal.
         data.append(
             {
-                "edad": f"{a}-{b}" if a < 100 else "≥100",
+                "edad": f"{a}-{b}" if a < 85 else "≥85",
                 "mujeres": len(temp_mujeres),
                 "hombres": len(temp_hombres),
             }
@@ -114,7 +111,7 @@ def main(año):
             name=f"<b>Hombres</b><br>{final['hombres'].sum():,.0f} registros",
             marker_color="#76ff03",
             marker_symbol="circle-open",
-            marker_size=22,
+            marker_size=24,
             marker_line_width=4,
         )
     )
@@ -128,7 +125,7 @@ def main(año):
             name=f"<b>Mujeres</b><br>{final['mujeres'].sum():,.0f} registros",
             marker_color="#ea80fc",
             marker_symbol="diamond-open",
-            marker_size=22,
+            marker_size=24,
             marker_line_width=4,
         )
     )
