@@ -56,7 +56,23 @@ En el siguiente calendario podremos observar como han evolucionado los nuevos ca
 
 ![calendario](./imgs/calendario_2023.png)
 
-Ahora sabemos que la gran mayoría de los casos confirmados de dengue ocuren en el verano y otoño.
+Ahora sabemos que la gran mayoría de los casos confirmados de dengue ocurren durante el verano y otoño.
+
+## Serotipos
+
+En la actualidad, se han descubierto 4 serotipos del virus del dengue, con un quinto en estudio.
+
+La base de datos de la Secretaría de Salud por ahora solo contempla los primeros 4 y una categoría adicional para aquellas infecciones sin un serotipo determinado.
+
+![Serotipos](./imgs/serotipos_2023.png)
+
+En estas gráficas de dona se presentan los casos confirmados y las defunciones anuales desagregados por serotipo.
+
+En 2022, se registraron 53 defunciones por dengue en México. Al comparar esta cifra con las 203 defunciones de 2023, se observa un incremento del 283%.
+
+En cuanto a los casos confirmados, México reportó 12,671 en 2022, mientras que en 2023 esta cifra aumentó a 54,406, lo que representa un aumento del 329%.
+
+Este aumento es sumamente preocupante, aunque no exclusivo de México, ya que se ha observado un comportamiento similar en otros países de la región. Para la edición 2024 de este artículo se analizarán las cifras anuales para determinar si existe una tendencia y cuán fuerte es.
 
 ## Conclusión
 
