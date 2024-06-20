@@ -78,6 +78,4 @@ Este aumento es sumamente preocupante, aunque no exclusivo de México, ya que se
 
 Este breve análisis demuestra algunas técnicas comunes de exploración de datos.
 
-Nos enfocamos en saber la ubicación geográfica y la temporal a gran detalle.
-
-Espero que el código les sea útil para sus propioso análisis.
+Nos enfocamos en los aspectos espaciales, demográficos y temporales. Espero que el código les sea útil para sus propios análisis.
