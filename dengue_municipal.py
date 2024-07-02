@@ -97,7 +97,7 @@ def mapa_municipios(año):
     etiquetas[-1] = f"≥{valor_max:,.0f}"
 
     # Cargamos el GeoJSON de municipios de México.
-    geojson = json.loads(open("./assets/mexico2020.json", "r", encoding="utf-8").read())
+    geojson = json.loads(open("./assets/mexico2019.json", "r", encoding="utf-8").read())
 
     # Estas listas serán usadas para configurar el mapa Choropleth.
     ubicaciones = list()
@@ -110,7 +110,7 @@ def mapa_municipios(año):
         # Si el municipio no se encuentra en nuestro DataFrame,
         # agregamos un valor nulo.
         try:
-            value = df.loc[geo]["total"]
+            value = df.loc[geo]["tasa"]
         except Exception:
             value = None
 
