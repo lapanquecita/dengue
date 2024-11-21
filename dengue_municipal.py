@@ -119,7 +119,7 @@ def mapa_municipios(año):
         valores.append(value)
 
     # Calculamos los valores para nuestro subtítulo.
-    subtitulo = f"Nacional: {total_casos / total_pop * 100000:,.1f} ({total_casos:,.0f} casos confirmados)"
+    subtitulo = f"Tasa nacional: <b>{total_casos / total_pop * 100000:,.1f}</b> (con <b>{total_casos:,.0f}</b> casos confirmados)"
 
     fig = go.Figure()
 
@@ -233,7 +233,7 @@ def mapa_municipios(año):
                 textangle=-90,
                 xanchor="center",
                 yanchor="middle",
-                text="Casos confirmados por cada 100,000 habitantes",
+                text="Tasa bruta por cada 100,000 habitantes",
                 font_size=100,
             ),
             dict(
@@ -250,11 +250,11 @@ def mapa_municipios(año):
                 font_size=120,
             ),
             dict(
-                x=0.01,
+                x=0,
                 y=0,
                 xanchor="left",
                 yanchor="bottom",
-                text="Fuente: SSA (03/01/2024)",
+                text="Fuente: SSA (20/11/2024)",
                 font_size=120,
             ),
             dict(
@@ -428,5 +428,5 @@ def top_municipios_tabla(año):
 
 
 if __name__ == "__main__":
-    mapa_municipios(2023)
-    top_municipios_tabla(2023)
+    mapa_municipios(2024)
+    top_municipios_tabla(2024)
