@@ -338,7 +338,7 @@ def defunciones(año):
         range=[0, None],
         ticks="outside",
         separatethousands=True,
-        titlefont_size=18,
+        title_font_size=18,
         tickfont_size=14,
         ticklen=10,
         title_standoff=6,
